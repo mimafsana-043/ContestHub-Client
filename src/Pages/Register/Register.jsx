@@ -14,13 +14,13 @@ const Register = () => {
     const [passError, setPassError] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
-    
+
 
     const handleRegister = (event) => {
         event.preventDefault();
         const form = event.target;
         const name = form.name.value;
-        if(name.length < 6){
+        if (name.length < 6) {
             setNameError("Name must be at least 6 characters long");
             return;
         } else {
@@ -35,8 +35,8 @@ const Register = () => {
         } else {
             setPassError("");
         }
-        
-        
+
+
         const photo = form.photo.value;
         // console.log({ name, email, password, photo });
         createUser(email, password)
@@ -44,15 +44,27 @@ const Register = () => {
                 const user = result.user;
                 console.log(user);
                 setUser(user);
+
+                // Success alert
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Account Created!',
+                    text: 'Your account has been created successfully.',
+                    confirmButtonText: 'OK'
+                });
             })
             .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                alert(errorCode, errorMessage);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: `${error.message}`,
+                });
             });
 
-            
-            console.log(name, email, password, photo);
+
+
+
+        console.log(name, email, password, photo);
     }
 
     const handleGoogleLogin = () => {
@@ -61,7 +73,7 @@ const Register = () => {
                 const user = result.user;
                 // console.log("Google User:", user);
                 Swal.fire({
-                    title: "Custom width, padding, color, background.",
+                    title: "Your account has been created successfully.",
                     width: 600,
                     padding: "3em",
                     color: "#716add",
@@ -90,7 +102,7 @@ const Register = () => {
                             placeholder="Name"
                             required
                         />
-                            {nameError && <p className="text-md text-error">{nameError}</p>}
+                        {nameError && <p className="text-md text-error">{nameError}</p>}
 
                         <label className="label">Email</label>
                         <input type="email" className="input" name="email" placeholder="Email"
@@ -99,21 +111,21 @@ const Register = () => {
 
                         <label className="label">Password</label>
                         <div className="relative w-full">
-                                        <input
-                                            type={showPassword ? "text" : "password"}
-                                            name="password"
-                                            className="input w-full pr-10"
-                                            placeholder="Password"
-                                            required
-                                        />
-                                        <button
-                                            type="button"
-                                            onClick={() => setShowPassword(!showPassword)}
-                                            className="absolute right-3 top-3 text-gray-500 hover:text-indigo-600"
-                                        >
-                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
-                                        </button>
-                                    </div>
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                name="password"
+                                className="input w-full pr-10"
+                                placeholder="Password"
+                                required
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-3 text-gray-500 hover:text-indigo-600"
+                            >
+                                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            </button>
+                        </div>
 
                         {passError && <p className="text-md text-error">{passError}</p>}
 
