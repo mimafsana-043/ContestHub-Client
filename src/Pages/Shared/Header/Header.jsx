@@ -1,9 +1,10 @@
-import { useContext } from "react";
-import { FaUserCircle } from "react-icons/fa";
+import { useContext, useEffect, useState } from "react";
+import { FaMoon, FaUserCircle } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
 import Swal from 'sweetalert2';
 import { AuthContext } from "../../../Provider/AuthProvider";
 const Header = () => {
+    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
     const { user, logOut } = useContext(AuthContext);
     const handleLogOut = () => {
         logOut().then(() => {
@@ -16,6 +17,19 @@ const Header = () => {
             console.log(error);
         });
     };
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+    }, [theme]);
+
+
+    const handleToggle = () => {
+        if (theme == 'light') {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+    }
 
 
     return (
@@ -35,14 +49,15 @@ const Header = () => {
                             <ul className="p-2">
                                 <li><Link to={'/all'}>All Contests</Link></li>
                                 <li><Link to={'/dashboard'}>Dashboard</Link></li>
+                                {user && user.email && <li><Link to={'/dashboard/mycontests'}>My Contests</Link></li>}
                             </ul>
                         </li>
                         <li><a>About Us</a></li>
                     </ul>
                 </div>
-                <a className="text-xl md:text-2xl font-bold text-primary">BattleOfBrains</a>
+                <a className="text-lg md:text-xl lg:text-2xl font-bold text-primary">BattleOfBrains</a>
             </div>
-            <div className="navbar-center  lg:flex text-primary">
+            <div className="navbar-center flex sm:hidden  text-primary">
                 <ul className="menu menu-horizontal px-1">
                     <li><Link to={'/'} className="">Home</Link></li>
                     <li>
@@ -51,18 +66,24 @@ const Header = () => {
                             <ul className="p-2 bg-base-100 w-40 z-1">
                                 <li><Link to={'/all'}>All Contests</Link></li>
                                 <li><Link to={'/dashboard'}>Dashboard</Link></li>
+                                {user && user.email && <li><Link to={'/dashboard/mycontests'}>My Contests</Link></li>}
+                            
                             </ul>
                         </details>
                     </li>
                     <li><a>About Us</a></li>
+                    <button onClick={handleToggle} className="">
+                        <FaMoon size={24} className="text-gray-700" />
+
+                    </button>
                 </ul>
             </div>
-            <div className="navbar-end gap-3">
-                {user ? (<button onClick={handleLogOut} className="px-5 py-2 rounded-md bg-primary text-white font-semibold shadow-md hover:bg-blue-700 hover:scale-105 transition-all duration-300">
+            <div className="navbar-end gap-2 md:gap-3">
+                {user ? (<button onClick={handleLogOut} className="px-3 py-2 md:px-5 md:py-2 text-sm md:text-base rounded-md bg-primary text-white font-semibold shadow-md hover:bg-blue-700 hover:scale-105 transition-all duration-300">
                     LogOut
                 </button>) : (
-                    <button className="px-5 py-2 rounded-md bg-primary text-white font-semibold shadow-md hover:bg-blue-700 hover:scale-105 transition-all duration-300">
-                        Login
+                    <button className="px-3 py-2 md:px-5 md:py-2 text-sm md:text-base rounded-md bg-primary text-white font-semibold shadow-md hover:bg-blue-700 hover:scale-105 transition-all duration-300">
+                        <Link to="/login"> Login</Link>
                     </button>
                 )}
 
@@ -80,7 +101,7 @@ const Header = () => {
                                 <img
                                     src={user.photoURL}
                                     alt="user"
-                                    className="lg:w-12 lg:h-12 w-8 h-8 rounded-full"
+                                    className="lg:w-16 lg:h-16 w-12 h-12 rounded-full"
                                 />
                             </div>
                         ) : (
@@ -94,7 +115,7 @@ const Header = () => {
                         className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-56"
                     >
                         <li className="text-sm font-semibold px-2 py-1">
-                            {user && user.name ? user.name : 'Guest'}
+                            {user && user.displayName ? user.displayName : 'Guest'}
                         </li>
                         <li className="text-sm font-semibold px-2 py-1">
                             {user && user.email ? user.email : 'Guest User'}

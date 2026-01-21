@@ -7,6 +7,7 @@ const Contest_Details = () => {
     const {_id} = useParams();
     const [contests, setContests] = useState({});
     
+    
     useEffect(() => {
         const contestDetails = data.find(d => d._id === _id);
         setContests(contestDetails);

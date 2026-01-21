@@ -1,17 +1,19 @@
 import { useContext, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 const Login = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const from = location.state?.from?.pathname || "/";
     const [passError, setPassError] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
     const { signIn, setUser, createUser } = useContext(AuthContext);
-    const navigate = useNavigate();
+    
+
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -26,25 +28,12 @@ const Login = () => {
             setPassError("");
         }
 
-        createUser(email, password)
-            .then((result) => {
-                const user = result.user;
-                console.log(user);
-                setUser(user);
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                alert(errorCode, errorMessage);
-            });
-        console.log(email, password);
-
         signIn(email, password)
             .then((result) => {
                 const user = result.user;
                 // console.log(user);
                 setUser(user);
-                navigate(`${location.state ? location.state : "/"}`)
+                navigate(location.state?.from?.pathname || "/", { replace: true });
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -75,13 +64,13 @@ const Login = () => {
     no-repeat
   `
                 });
-                Navigate(from, { replace: true });
+                navigate(location.state?.from?.pathname || "/", { replace: true });
             })
             .catch((error) => console.error(error.message));
     }
 
 
-    
+
     return (
 
         <div className=" flex flex-col justify-center items-center pb-0">

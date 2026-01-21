@@ -1,8 +1,16 @@
-import { Suspense } from 'react';
-import { useLoaderData } from 'react-router-dom';
-import Contest_All_info from '../Contest_All_info/Contest_All_info';
+import { Suspense, lazy, useState } from 'react';
+import { Link, useLoaderData } from 'react-router-dom';
+// import Contest_All_info from '../Contest_All_info/Contest_All_info';
+const Contest_All_info = lazy(
+    () => import('../Contest_All_info/Contest_All_info')    
+);
 const Contest_All = () => {
-    const all_contests = useLoaderData();
+    const loadedContests = useLoaderData();
+    const [all_contests, setAll_contests] = useState(loadedContests);
+
+    const handleDeleteContest = (id) => {
+        setAll_contests(all_contests.filter(contest => contest._id !== id));
+    };
     return (
         <div>
             <div className="my-16 text-center">
@@ -23,10 +31,21 @@ const Contest_All = () => {
             <div className="grid lg:grid-cols-3 gap-3 md:grid-cols-2 sm:grid-cols-1 justify-items-center mx-6 mb-12">
                 <Suspense fallback={<span className="loading loading-spinner loading-xl"></span>}>
                     {
-                    all_contests.map((d) => <Contest_All_info key={d._id} d={d}></Contest_All_info >)
+                        all_contests.map((d) => <Contest_All_info key={d._id} d={d} onDelete={handleDeleteContest}></Contest_All_info >)
                     }
                 </Suspense>
             </div>
+
+            <div className="flex justify-center items-center">
+                <Link
+                    to="/update-form"
+                    className="btn bg-white text-primary text-xl p-6 hover:bg-gray-100 mb-6 rounded-2xl border border-cyan-800"
+                >
+                    Add Contest
+                </Link>
+            </div>
+            
+
         </div>
     );
 };

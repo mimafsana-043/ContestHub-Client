@@ -1,9 +1,42 @@
-import { FaUsers } from "react-icons/fa";
+import axios from "axios";
+import { FaTrashAlt, FaUsers } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
-const Contest_All_info = ({d}) => {
+
+const Contest_All_info = ({ d, onDelete }) => {
     const { name, image, participants, description, prize, deadline, _id } =
         d;
+   const handleDelete = async (_id) => {
+    const result = await Swal.fire(
+        {
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        });
+        if (result.isConfirmed) {
+            try {
+                await axios.delete(`http://localhost:3000/contests/${_id}`)
+
+                Swal.fire(
+                    'Deleted!',
+                    'Your contest has been deleted.',
+                    'success'
+                );
+                onDelete(_id);
+            } catch (error) {
+                Swal.fire(
+                    'Error!',
+                    'There was an error deleting the contest.',
+                    'error'
+                );
+            }
+        }
+   }
     return (
         <div className="group relative w-full max-w-sm rounded-3xl overflow-hidden bg-white/10 backdrop-blur-xl border border-white/20 shadow-xl hover:scale-[1.02] transition-all duration-300">
 
@@ -35,14 +68,24 @@ const Contest_All_info = ({d}) => {
                     </div>
 
                     <span className="font-semibold text-emerald-600 text-lg">
-                       Prize Money : ৳{prize}
+                        Prize Money : ৳{prize}
                     </span>
                 </div>
 
                 {/* Deadline */}
-                <p className="text-xs text-red-400">
-                    Deadline: {deadline}
-                </p>
+                <div className="flex justify-between items-center">
+                    <p className="text-xs text-red-400">
+                        Deadline: {deadline}
+                    </p>
+
+                    <button onClick={()=>handleDelete( _id)}
+                        className="text-red-500 hover:text-red-700 transition"
+                        title="Delete Contest"
+                    >
+                        <FaTrashAlt size={16} />
+                    </button>
+                </div>
+
 
                 {/* Button */}
                 <Link to={`/detail/${_id}`}>
@@ -50,6 +93,8 @@ const Contest_All_info = ({d}) => {
                         More Details
                     </button>
                 </Link>
+
+
             </div>
         </div>
     );

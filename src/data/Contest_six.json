@@ -1,0 +1,62 @@
+[
+  {
+    "_id": "1",
+    "name": "UI Design Challenge",
+    "image": "https://i.ibb.co.com/XxrtcVB9/faizur-rehman-yap-BRd-PWxik-unsplash.jpg",
+    "participants": 320,
+    "description": "Design a modern and user-friendly landing page UI for a startup using Figma or Adobe XD.",
+    "type": "Design",
+    "prize": 5000,
+    "deadline": "2025-01-25"
+  },
+  {
+    "_id": "2",
+    "name": "Creative Writing Contest",
+    "image": "https://i.ibb.co.com/zhN874WW/kelly-sikkema-x-O6-NCQj-IWFY-unsplash.jpg",
+    "participants": 280,
+    "description": "Write a short story based on the theme 'Hope in Darkness' with originality and emotion.",
+    "type": "Article Writing",
+    "prize": 4000,
+    "deadline": "2025-01-28"
+  },
+  {
+    "_id": "8",
+    "name": "Gaming Review Contest",
+    "image": "https://i.ibb.co.com/ZkNrBJj/carl-raw-m3hn2-Kn5-Bns-unsplash.jpg",
+    "participants": 260,
+    "description": "Write an honest and engaging review of your favorite game including pros and cons.",
+    "type": "Gaming",
+    "prize": 3000,
+    "deadline": "2025-01-29"
+  },
+  {
+    "_id": "14",
+    "name": "UX Case Study Contest",
+    "image": "https://i.ibb.co.com/5Wck4pV9/daniel-korpai-mx-Pi-Miz7-KCo-unsplash.jpg",
+    "participants": 240,
+    "description": "Analyze a real product UX and suggest improvements with proper reasoning.",
+    "type": "Design",
+    "prize": 5500,
+    "deadline": "2025-02-04"
+  },
+  {
+    "_id": "9",
+    "name": "Poster Design Battle",
+    "image": "https://i.ibb.co.com/JRJy49yf/paulina-milde-jachowska-8-Dv8-KICu-O-g-unsplash.jpg",
+    "participants": 330,
+    "description": "Design an eye-catching poster for an upcoming tech conference event.",
+    "type": "Design",
+    "prize": 5000,
+    "deadline": "2025-02-02"
+  },
+  {
+    "_id": "3",
+    "name": "Frontend Battle",
+    "image": "https://i.ibb.co.com/W46NNBhV/ferenc-almasi-L8-KQIPCODV8-unsplash.jpg",
+    "participants": 410,
+    "description": "Build a responsive homepage using React and Tailwind CSS following the provided design.",
+    "type": "Coding",
+    "prize": 8000,
+    "deadline": "2025-02-01"
+  }
+]

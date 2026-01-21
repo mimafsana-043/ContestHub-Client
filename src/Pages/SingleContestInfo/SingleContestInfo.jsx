@@ -1,6 +1,35 @@
+import { useEffect, useState } from "react";
 import { FaClock, FaCrown, FaTrophy, FaUsers } from "react-icons/fa";
+import { Link } from "react-router-dom";
 const SingleContestInfo = ({ contests }) => {
     const { _id } = contests;
+    const [timeLeft, setTimeLeft] = useState("");
+    useEffect(() => {
+        const deadlineTime = new Date(contests.deadline).getTime();
+
+        const updateCountdown = () => {
+            const now = new Date().getTime();
+            const distance = deadlineTime - now;
+            if (distance <= 0) {
+                setTimeLeft("Contest Ended");
+                return;
+            }
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+            return true;
+        };
+        updateCountdown();
+
+        const interval = setInterval(updateCountdown, 1000);
+
+        return () => clearInterval(interval);
+    }, [contests.deadline]);
+
+
     return (
         <div>
             <section className="min-h-screen pb-20">
@@ -73,7 +102,7 @@ const SingleContestInfo = ({ contests }) => {
                                 <FaUsers className="text-indigo-600 text-2xl" />
                                 <div>
                                     <p className="text-gray-500 text-sm">Participants</p>
-                                    <p className="font-bold text-lg">320+</p>
+                                    <p className="font-bold text-lg">{contests.participants}</p>
                                 </div>
                             </div>
 
@@ -81,7 +110,7 @@ const SingleContestInfo = ({ contests }) => {
                                 <FaTrophy className="text-emerald-600 text-2xl" />
                                 <div>
                                     <p className="text-gray-500 text-sm">Prize Money</p>
-                                    <p className="font-bold text-lg">৳{contests.prizeMoney}</p>
+                                    <p className="font-bold text-lg">{contests.prize} ৳</p>
                                 </div>
                             </div>
 
@@ -90,14 +119,24 @@ const SingleContestInfo = ({ contests }) => {
                                 <div>
                                     <p className="text-gray-500 text-sm">Deadline</p>
                                     <p className="font-bold text-lg">
-                                        {contests.deadline}
+                                        {timeLeft}
                                     </p>
                                 </div>
                             </div>
 
-                            <button className="w-full mt-4 py-4 rounded-xl bg-gray-300 text-gray-600 font-semibold cursor-not-allowed">
-                                Contest Ended
-                            </button>
+                            {timeLeft === "Contest Ended" ? (
+                                <button className="w-full mt-4 py-4 rounded-xl bg-gray-300 text-gray-600 font-semibold cursor-not-allowed">
+                                    Register Closed
+                                </button>
+                            ) : (
+                                <Link to={`/paynow/${_id}`}>
+                                    <button className="w-full mt-4 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold hover:from-indigo-600 hover:to-purple-600 transition">
+                                        Register Now
+                                    </button>
+                                </Link>
+                            )}
+
+
                         </div>
                     </div>
                 </div>

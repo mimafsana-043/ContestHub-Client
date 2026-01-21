@@ -4,6 +4,7 @@ import Additional from "../Additional/Additional";
 import Banner from "../Banner/Banner";
 import Contest_6_info from "../Contest_6_info/Contest_6_info";
 
+
 const Home = () => {
     const contest = useLoaderData();
     return (
